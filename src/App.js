@@ -36,8 +36,9 @@ class TodoList extends Component {
     //// enter code here
     if (this.state.currentTodo.length > 0 ){
       this.setState({
-        todos: [...this.state.todos, this.state.currentTodo],
+        //todos: [...this.state.todos, this.state.currentTodo],
         //use filter function to delete the id/index for that item - change the line above
+        todos: this.state.todos.filter(el => el !==event)
       })
   }
 }
@@ -56,23 +57,47 @@ class TodoList extends Component {
           {this.state.todos.length} > 0
           {this.state.todos.map(todos => {
           return (
-                  <li key={index}>
+                  <li key={todos}>
                       {todos} 
-                      <button id={index} onClick={(event) => deleteItem(index, event)} type="text"> 
+                    <button  type="text" onClick={() => { this.deleteItem(todos) }} key={todos}>{ todos } 
+ /*  ********************************
+ const TaskList = (props) => {
+
+console.log(props);
+return (
+    <ul>
+        {props.todosArray.length };
+            props.todosArray.map(todos, index) => {
+                return (
+                <li key={index}> 
+                {todos} 
+                    < button id={index} onClick={ (event) => props.deleteItem (index, event)} type ="text"> 
+                        Delete 
+                    </button> 
+                </li>
+                )
+            }) ;
+    </ul>
+)
+}
+
+ */   ********************************
+ 
                         Delete 
                       </button> } 
                   </li>
                  )}
-          ) : defaultStatus }
+          ) } : defaultStatus }
           //The above conditional (ternary operator) format...  (age >= 21) ? "Beer" : "Juice";
           // The return state will be a base??? for clearing the list?
           //The above section can be destructured to "TaskList" to wrap with unlisted item tags
         </ul>
-
       </div>
     )
-  
   }
 }
+
+
+   // removed  id={event}
 
 export default TodoList;
