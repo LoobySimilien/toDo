@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { tsPropertySignature } from '@babel/types';
-import { format } from 'util';
 
 class TodoList extends Component {
   constructor(){
@@ -10,7 +8,6 @@ class TodoList extends Component {
         currentTodo: "",
     }
   }
-
 
   handleChange = event => { 
     console.log(event.target.value);
@@ -36,13 +33,14 @@ class TodoList extends Component {
     //// enter code here
     if (this.state.currentTodo.length > 0 ){
       this.setState({
-        //todos: [...this.state.todos, this.state.currentTodo],
-        //use filter function to delete the id/index for that item - change the line above
-        todos: this.state.todos.filter(el => el !==event)
-      })
+        //use filter function to delete the id/index for that item
+        // SYNTAX:  array.filter(function(currentValue, index, arr), thisValue)
+              todos: this.state.todos.filter((todos, index) => index !== event)
+            //todos: [...this.state.todos, this.state.currentTodo.splice(index, 1) ]
+            }
+          );
+        };
   }
-}
-
 
   render() {
     console.log("I am logging the array of todos", this.state.todos)
@@ -51,53 +49,23 @@ class TodoList extends Component {
         <form onSubmit={this.addItem}>
           <label htmlFor="taskname">Task Name:</label>
           <input onChange={this.handleChange} name="taskName" type="text" placeholder="  Add todo here!"/>
-          <button type="submit"> Add Task </button>
+          <button type="submit"> Type In Your Task </button>
         </form>
         <ul> 
-          {this.state.todos.length} > 0
-          {this.state.todos.map(todos => {
-          return (
-                  <li key={todos}>
-                      {todos} 
-                    <button  type="text" onClick={() => { this.deleteItem(todos) }} key={todos}>{ todos } 
- /*  ********************************
- const TaskList = (props) => {
-
-console.log(props);
-return (
-    <ul>
-        {props.todosArray.length };
-            props.todosArray.map(todos, index) => {
+                {this.state.todos.map((todos, index) => {
                 return (
-                <li key={index}> 
-                {todos} 
-                    < button id={index} onClick={ (event) => props.deleteItem (index, event)} type ="text"> 
-                        Delete 
-                    </button> 
-                </li>
-                )
-            }) ;
-    </ul>
-)
-}
-
- */   ********************************
- 
-                        Delete 
-                      </button> } 
-                  </li>
-                 )}
-          ) } : defaultStatus }
-          //The above conditional (ternary operator) format...  (age >= 21) ? "Beer" : "Juice";
-          // The return state will be a base??? for clearing the list?
-          //The above section can be destructured to "TaskList" to wrap with unlisted item tags
-        </ul>
-      </div>
+                    <li key={index}> 
+                         {todos} 
+                            < button id={index} onClick={ (event) => this.deleteItem (index, event)} type ="text"> 
+                               Delete 
+                            </button> 
+                    </li>
+                )})}
+                
+          </ul>
+        </div>
     )
   }
 }
-
-
-   // removed  id={event}
 
 export default TodoList;
